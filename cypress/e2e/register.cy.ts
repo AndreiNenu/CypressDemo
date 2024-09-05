@@ -1,3 +1,7 @@
+import { Register } from "../pageObjects/register"
+
+const register = new Register()
+
 before('', () => {
 })
 
@@ -12,8 +16,10 @@ describe('Register tests', () => {
 
 it('Check register user with valid data', () => {
 
+    register.getFirstName()
+        .type('')
 
-    
+
 })
 
 })

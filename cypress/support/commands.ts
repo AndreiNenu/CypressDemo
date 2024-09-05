@@ -1,9 +1,24 @@
 /// <reference types="cypress" />
 
 import { User } from "../interfaces/user"
+import { Login } from "../pageObjects/login"
 import { Register } from "../pageObjects/register"
 
 const register = new Register()
+const login = new Login()
+
+const user: User = {
+  firstName: 'Andrei',
+  lastName: 'Nenu',
+  address: 'Libertatii Nr.12B',
+  city: 'Fagaras',
+  state: 'Brasov',
+  zipCode: '500200',
+  phoneNumber: '0723123456',
+  socialSecurityNumber: "0123456789",
+  username: 'andrei',
+  password: '1234'
+}
 
 // ***********************************************
 // This example commands.ts shows you how to
@@ -19,18 +34,7 @@ const register = new Register()
 // -- This is a parent command --
  Cypress.Commands.add('registerRandomUser', () => { 
 
-    const user: User = {
-        firstName: 'Andrei',
-        lastName: 'Nenu',
-        address: 'Libertatii Nr.12B',
-        city: 'Fagaras',
-        state: 'Brasov',
-        zipCode: '500200',
-        phoneNumber: '0723123456',
-        socialSecurityNumber: "",
-        username: getRandomUserName(),
-        password: '1234'
-    }
+    user.username = 'andrei' + getRandomNumber(0, 999)
 
     register.getFirstName().type(user.firstName)
     register.getLastName().type(user.lastName)
@@ -45,10 +49,39 @@ const register = new Register()
     register.getConfirmPassword().type(user.password)
     register.getRegisterButton().click()
 
+    console.log(user.username)
+
+    return cy.wrap(user)
+    
   })
 
-  function getRandomUserName(){
-    return ''
+  Cypress.Commands.add('registerUser', (username: string, password: string) => { 
+
+    register.getFirstName().type(user.firstName)
+    register.getLastName().type(user.lastName)
+    register.getAddress().type(user.address)
+    register.getCity().type(user.city)
+    register.getState().type(user.state)
+    register.getZipCode().type(user.zipCode)
+    register.getPhoneNumber().type(user.phoneNumber)
+    register.getSocialSecurityNumber().type(user.socialSecurityNumber)
+    register.getUsername().type(username)
+    register.getPassword().type(password)
+    register.getConfirmPassword().type(password)
+    register.getRegisterButton().click()
+    
+  })
+
+  Cypress.Commands.add('loginUser', (username: string, password: string) => {
+
+    login.getUsername().type(username)
+    login.getPassword().type(password)
+    login.clickLoginButton()
+
+  })
+
+  function getRandomNumber(min: number, max: number){
+    return  Math.round( Math.random() * (max - min) + min )
   }
 
 //
@@ -69,7 +102,9 @@ export{} //it is required for the declaration of global below
 declare global{
     namespace Cypress{
         interface Chainable{
-            registerRandomUser(): Chainable<void>
+            registerRandomUser(): Chainable<User>
+            registerUser(username: string, password: string): Chainable<void>
+            loginUser(username: string, password: string): Chainable<void>
         }
     }
 }

@@ -7,7 +7,7 @@ export class Overview{
     tableBodyElements = []
     tableFootElements = ['*Balance includes deposits that may be subject to holds']
 
-    //locator fields
+    //locators fields
     overviewPageTitle = "#showOverview > .title"
     overviewTableHead = "table[id='accountTable'] > thead > tr > th"
     overviewTableBody = "table[id='accountTable'] > tbody > tr > td"

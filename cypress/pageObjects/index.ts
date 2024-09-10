@@ -1,4 +1,4 @@
-export class Login{
+export class Index{
 
 //locators fields
 username = "input[name='username']"

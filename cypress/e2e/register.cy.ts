@@ -1,8 +1,8 @@
-import { Login } from "../pageObjects/login"
+import { Index } from "../pageObjects"
 import { Register } from "../pageObjects/register"
 
 const register = new Register()
-const login = new Login()
+const index = new Index()
 
 before('', () => {
 })
@@ -18,13 +18,13 @@ describe('Register tests', () => {
 
 it('Check that register user works with valid data', () => {
 
-    login.clickRegisterLink()
+    index.clickRegisterLink()
 
     cy.url().should('include', 'register.htm') //verify we are on the register page
     
     cy.registerRandomUser().then( user => {
 
-    login.getWelcomeMessage()
+    index.getWelcomeMessage()
         .should('be.visible')
         .and('have.text', 'Welcome ' + user.firstName + ' ' + user.lastName)
 
@@ -38,7 +38,7 @@ it('Check that register user works with valid data', () => {
 
 it('Check that an existing user cannot be registered again', () => {
 
-    login.clickRegisterLink()
+    index.clickRegisterLink()
 
     cy.url().should('include', 'register.htm') //verify we are on the register page
     
@@ -55,7 +55,7 @@ it('Check that an existing user cannot be registered again', () => {
 
 it('Check that all register fields are mandatory', () => {
 
-    login.clickRegisterLink()
+    index.clickRegisterLink()
 
     cy.url().should('include', 'register.htm') //verify we are on the register page
     

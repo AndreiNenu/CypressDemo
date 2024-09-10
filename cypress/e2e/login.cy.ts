@@ -1,7 +1,7 @@
 import { User } from "../interfaces/user";
-import { Login } from "../pageObjects/login";
+import { Index } from "../pageObjects";
 
-const login = new Login()
+const index = new Index()
 let myUser: User;
 
 before('', () => {
@@ -9,7 +9,7 @@ before('', () => {
     cy.registerRandomUser().then(user => {
         myUser = user;
     })
-    login.clickLogOutLink()
+    index.clickLogOutLink()
 })
 
 beforeEach('', () => {
@@ -29,7 +29,7 @@ it('Check login functionality with valid credentials', () => {
             expect(url).to.contain('overview.htm')
         })
 
-        login.getWelcomeMessage()
+        index.getWelcomeMessage()
             .should('be.visible')
             .and('have.text', 'Welcome ' + myUser.firstName + ' ' + myUser.lastName)
 
@@ -39,11 +39,11 @@ it('Check login with invalid credentials', () => {
 
     cy.loginUser('invalidUser', 'invalidPassword')
 
-    login.getLoginErrorTitle()
+    index.getLoginErrorTitle()
         .should('be.visible')
         .and('have.text', 'Error!')
 
-    login.getLoginErrorMessage()
+    index.getLoginErrorMessage()
         .should('be.visible')
         .and('have.text', 'The username and password could not be verified.')
 

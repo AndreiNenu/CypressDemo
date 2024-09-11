@@ -85,6 +85,11 @@ const user: User = {
       .then($el => $el.text())
   })
 
+  Cypress.Commands.add('getValue', (selector) => {
+    cy.get(selector)
+      .then($el => $el.val())
+  })
+
   function getRandomNumber(min: number, max: number){
     return  Math.round( Math.random() * (max - min) + min )
   }
@@ -111,6 +116,7 @@ declare global{
             registerUser(username: string, password: string): Chainable<void>
             loginUser(username: string, password: string): Chainable<void>
             getText(selector: any): Chainable<void>
+            getValue(selector: any): Chainable<void>
         }
     }
 }

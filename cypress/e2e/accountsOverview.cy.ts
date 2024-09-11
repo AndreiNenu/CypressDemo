@@ -21,6 +21,7 @@ before('', () => {
     //Do this in order for Parabank app to be stable and error free
     index.clickAdminPageLink()
     admin.checkAccessModeJDBC()
+    admin.setInitialBalance('5000')
     admin.applyAdminSettings()
 
     //To be able to run Overview tests separate from other tests
@@ -45,21 +46,18 @@ describe('Overview Tests', () => {
 it.only('Check account overview data', () => {
     
     index.clickAccountsOverviewLink()
-    
+
     cy.url().then(url => {
          expect(url).to.contain('overview.htm')
     })
 
+    overview.checkOverviewPageTitle()
     overview.checkTable()
+    overview.getTableUsers()
     overview.checkTableHeadData()
+    overview.checkTableBodyData()
     overview.checkTableFootData()
     
-})
-
-it('Check login with invalid credentials', () => {
-
-    
-
 })
 
 })

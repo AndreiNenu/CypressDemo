@@ -1,11 +1,11 @@
 /// <reference types="cypress" />
 
 import { User } from "../interfaces/user"
-import { Login } from "../pageObjects/login"
+import { Index } from "../pageObjects"
 import { Register } from "../pageObjects/register"
 
 const register = new Register()
-const login = new Login()
+const index = new Index()
 
 const user: User = {
   firstName: 'Andrei',
@@ -74,10 +74,20 @@ const user: User = {
 
   Cypress.Commands.add('loginUser', (username: string, password: string) => {
 
-    login.getUsername().type(username)
-    login.getPassword().type(password)
-    login.clickLoginButton()
+    index.getUsername().type(username)
+    index.getPassword().type(password)
+    index.clickLoginButton()
 
+  })
+
+  Cypress.Commands.add('getText', (selector) => {
+    cy.get(selector)
+      .then($el => $el.text())
+  })
+
+  Cypress.Commands.add('getValue', (selector) => {
+    cy.get(selector)
+      .then($el => $el.val())
   })
 
   function getRandomNumber(min: number, max: number){
@@ -105,6 +115,8 @@ declare global{
             registerRandomUser(): Chainable<User>
             registerUser(username: string, password: string): Chainable<void>
             loginUser(username: string, password: string): Chainable<void>
+            getText(selector: any): Chainable<void>
+            getValue(selector: any): Chainable<void>
         }
     }
 }

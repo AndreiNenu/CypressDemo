@@ -14,9 +14,6 @@ export class Register{
     confirmPassword = "#repeatedPassword"
     registerButton = "input[value='Register']"   //a trebuit cautat dupa value nu dupa input type
 
-    //assertions fields
-    registerSuccessfulTitle = ".title"
-
     //locator errors
     usernameAlreadyExistsError = "#customer\\.username\\.errors"
     firstNameRequiredError = "#customer\\.firstName\\.errors"
@@ -36,29 +33,49 @@ export class Register{
 
         cy.get(this.firstNameRequiredError)
             .should('be.visible')
+            .should('have.text', 'First name is required.')
+            .and('have.css', 'color', 'rgb(255, 0, 0)')
         cy.get(this.lastNameRequiredError)
             .should('be.visible')
+            .should('have.text', 'Last name is required.')
+            .and('have.css', 'color', 'rgb(255, 0, 0)')
         cy.get(this.addressRequiredError)
             .should('be.visible')
+            .should('have.text', 'Address is required.')
+            .and('have.css', 'color', 'rgb(255, 0, 0)')
         cy.get(this.cityRequiredError)
             .should('be.visible')
+            .should('have.text', 'City is required.')
+            .and('have.css', 'color', 'rgb(255, 0, 0)')
         cy.get(this.stateRequiredError)
             .should('be.visible')
+            .should('have.text', 'State is required.')
+            .and('have.css', 'color', 'rgb(255, 0, 0)')
         cy.get(this.zipCodeRequiredError)
             .should('be.visible')
+            .should('have.text', 'Zip Code is required.')
+            .and('have.css', 'color', 'rgb(255, 0, 0)')
         cy.get(this.socialSecurityNumberRequiredError)
             .should('be.visible')
+            .should('have.text', 'Social Security Number is required.')
+            .and('have.css', 'color', 'rgb(255, 0, 0)')
         cy.get(this.usernameRequiredError)
             .should('be.visible')
+            .should('have.text', 'Username is required.')
+            .and('have.css', 'color', 'rgb(255, 0, 0)')
         cy.get(this.passwordRequiredError)
             .should('be.visible')
+            .should('have.text', 'Password is required.')
+            .and('have.css', 'color', 'rgb(255, 0, 0)')
         cy.get(this.confirmPasswordRequiredError)
             .should('be.visible')
+            .should('have.text', 'Password confirmation is required.')
+            .and('have.css', 'color', 'rgb(255, 0, 0)')
         
     }
 
     getFirstName(){
-        return cy.get(this.firstName)   //nu mergea initial deoarece am definit string cu litera mare
+        return cy.get(this.firstName)   
     }
 
     getLastName(){
@@ -103,10 +120,6 @@ export class Register{
 
     getRegisterButton(){
         return cy.get(this.registerButton)
-    }
-
-    getTitle(){
-        return cy.get(this.registerSuccessfulTitle)
     }
 
 }

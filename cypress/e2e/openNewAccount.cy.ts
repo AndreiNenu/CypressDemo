@@ -1,11 +1,16 @@
+import { last, over } from "cypress/types/lodash";
 import { User } from "../interfaces/user";
 import { Index } from "../pageObjects";
+import { Activity } from "../pageObjects/activity";
 import { Admin } from "../pageObjects/admin";
 import { OpenAccount } from "../pageObjects/openAccount"
+import { Overview } from "../pageObjects/overview";
 
 const openAccount = new OpenAccount()
 const index = new Index()
 const admin = new Admin()
+const overview = new Overview()
+const activity = new Activity()
 let myUser: User
 let myAccountIDs: string[] = [] 
 
@@ -14,7 +19,7 @@ before('', () => {
     //Preconditions for Open New Accounts Tests
 
     //Go to Parabank site
-    cy.visit('index.htm')
+    cy.visit('https://parabank.parasoft.com/parabank/index.htm')
 
     //Check JDBC radio button and apply settings button
     //Do this in order for Parabank app to be stable and error free
@@ -34,10 +39,8 @@ before('', () => {
 })
 
 beforeEach('', () => {
-    index.clickOpenNewAccountLink()
-    cy.url().then(url => {
-         expect(url).to.contain('openaccount.htm')
-    })
+    
+    cy.intercept('POST', '/parabank/services_proxy/bank/*').as('accOpenResp')
 })
 
 after('', () => {
@@ -47,31 +50,63 @@ describe('Open new accounts tests', () => {
 
 it('Check open new account page title and texts', () => {
     
+    cy.visit('openaccount.htm')
+    
     openAccount.checkOpenNewAccountTitle()
     openAccount.checkOpenNewAccountPageTexts()
 
 })
 
-it.only('Create checking account and verify it', () => {
-    
-    cy.getAccountsIDs()
-        .then($elem => {
-            myAccountIDs = $elem
-            console.log('Test array: ' + myAccountIDs + ' ' + 'NumberOfIDsTests: ' + myAccountIDs.length)
-            cy.selectTypeOfAccount('savings')
-            console.log('Parametrul meu: ' + myAccountIDs[0])
-            cy.selectFromAccount(myAccountIDs[0])
-            openAccount.clickOpenNewAccountButton()
-        })
+it('Create a cheking account and verify that was created', () => {
 
+    cy.visit('openaccount.htm')
     
-    
+    cy.openNewAccount('CHECKING', 0)
+
+    cy.wait('@accOpenResp').then(()=>{
+        cy.get('#newAccountId')
+        .should('be.visible')
+        .click()
+
+    activity.getAccountType()
+        .should('be.visible')
+        .should('have.text', 'CHECKING')
+    })
+
 })
 
-it('Create savings account and verify it', () => {
-    
-   
+it('Create a savings account and verify that was created', () => {
 
+    cy.visit('openaccount.htm')
+    
+    cy.openNewAccount('SAVINGS', 0)
+
+    cy.wait('@accOpenResp').then(()=>{
+        cy.get('#newAccountId')
+        .should('be.visible')
+        .click()
+
+    activity.getAccountType()
+        .should('be.visible')
+        .should('have.text', 'SAVINGS')
+    })
+
+})
+
+
+it.only('Create a total of 5 checking accounts accounts and verify it', () => {
+    
+    cy.visit('openaccount.htm')
+
+        for(let i=0; i < 4; i++){
+            cy.openNewAccount('CHECKING', 0)
+        }
+       
+        cy.getAccountsIDs()
+        .then($elem => {
+            cy.wrap($elem)
+                .should('have.length', 5)
+        })
 })
 
 })

@@ -90,6 +90,8 @@ const accountIDs: string[] = []
   Cypress.Commands.add('getAccountsIDs', () => {
 
     index.clickAccountsOverviewLink()
+    //cy.visit('overview.htm')
+    accountIDs.length = 0
 
     cy.get(overview.overviewTableUsers)
       .each(($elem, index) => {
@@ -98,12 +100,13 @@ const accountIDs: string[] = []
           accountIDs.push(text)
         }
       })
+      
       return cy.wrap(accountIDs)
   })
 
   Cypress.Commands.add('selectTypeOfAccount', (typeOfAccount: string) => {
 
-    index.clickOpenNewAccountLink()
+    //need to be on open new account page as a prerequisite
 
     if( typeOfAccount === 'CHECKING' || typeOfAccount === 'checking')
       {
@@ -116,12 +119,24 @@ const accountIDs: string[] = []
       
   })
 
-  Cypress.Commands.add('selectFromAccount', (fromAccount: any) => {
+  Cypress.Commands.add('selectFromAccount', (selectFromAccount: any) => {
 
-    index.clickOpenNewAccountLink()
+    //need to be on open new account page as a prerequisite
 
-    cy.get(openAccount.fromAccountDropdown).select(fromAccount)
+    cy.get(openAccount.fromAccountDropdown).select(selectFromAccount)
       
+  })
+
+  Cypress.Commands.add('openNewAccount', (typeOfAccount: string, selectFromAccount: any) => {
+
+    cy.visit('openaccount.htm')
+    
+    cy.selectTypeOfAccount(typeOfAccount)
+
+    cy.selectFromAccount(selectFromAccount)
+
+    openAccount.clickOpenNewAccountButton()
+
   })
 
   Cypress.Commands.add('getText', (selector) => {
@@ -163,7 +178,8 @@ declare global{
             getValue(selector: any): Chainable<void>
             getAccountsIDs(): Chainable<any>
             selectTypeOfAccount(typeOfAccount: string): Chainable<void>
-            selectFromAccount(fromAccount: any): Chainable<void>
+            selectFromAccount(selectFromAccount: any): Chainable<void>
+            openNewAccount(typeOfAccount: string, selectFromAccount: any): Chainable<any>
         }
     }
 }

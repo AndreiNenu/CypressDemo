@@ -15,7 +15,7 @@ export class Overview{
     overviewTableHead = "table[id='accountTable'] > thead > tr > th"
     overviewTableBody = "table[id='accountTable'] > tbody > tr > td"
     overviewTableFoot = "table[id='accountTable'] > tfoot > tr > td"
-    overviewTableUsers = "table[id='accountTable'] > tbody > tr >td:nth-child(1)"
+    overviewTableUsers = "table[id='accountTable'] > tbody > tr > td:nth-child(1)"
     
     //functions
     checkOverviewPageTitle(){

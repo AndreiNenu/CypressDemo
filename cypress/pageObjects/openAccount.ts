@@ -11,11 +11,23 @@ export class OpenAccount{
 
     //other locators
     openNewAccountButton = "input[value='Open New Account']"
+    newAccountID = "#newAccountId"
     
     //functions
 
+    getNewAccountID(){
+        return cy.get(this.newAccountID)
+    }
+
     clickOpenNewAccountButton(){
         cy.get(this.openNewAccountButton).click()
+    }
+
+    checkDropdowns(){
+        cy.get(this.selectAccountDropdown)
+            .should('be.visible')
+        cy.get(this.fromAccountDropdown)
+            .should('be.visible')
     }
 
     checkOpenNewAccountTitle(){

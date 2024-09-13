@@ -1,11 +1,11 @@
 import { over } from "cypress/types/lodash";
 import { User } from "../interfaces/user";
 import { Index } from "../pageObjects";
-import { Overview } from "../pageObjects/overview";
 import { Admin } from "../pageObjects/admin";
+import { Overview } from "../pageObjects/overview";
 
-const index = new Index()
 const overview = new Overview()
+const index = new Index()
 const admin = new Admin()
 let myUser: User;
 
@@ -35,7 +35,10 @@ before('', () => {
 })
 
 beforeEach('', () => {
-
+    index.clickAccountsOverviewLink()
+    cy.url().then(url => {
+         expect(url).to.contain('overview.htm')
+    })
 })
 
 after('', () => {
@@ -45,15 +48,8 @@ describe('Overview Tests', () => {
 
 it.only('Check account overview data', () => {
     
-    index.clickAccountsOverviewLink()
-
-    cy.url().then(url => {
-         expect(url).to.contain('overview.htm')
-    })
-
     overview.checkOverviewPageTitle()
     overview.checkTable()
-    overview.getTableUsers()
     overview.checkTableHeadData()
     overview.checkTableBodyData()
     overview.checkTableFootData()

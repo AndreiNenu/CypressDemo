@@ -9,31 +9,19 @@ export class Overview{
         'Total', '$5000.00', '\xa0'       //// Non-breakable space is char 0xa0 (160 dec)
     ]
     tableFootElements = ['*Balance includes deposits that may be subject to holds']
-    tableUsers: any[] = []
 
     //locators fields
     overviewPageTitle = "#showOverview > .title"
     overviewTableHead = "table[id='accountTable'] > thead > tr > th"
     overviewTableBody = "table[id='accountTable'] > tbody > tr > td"
     overviewTableFoot = "table[id='accountTable'] > tfoot > tr > td"
-    overviewTableUsers = "table[id='accountTable'] > tbody > tr >td:nth-child(1)"
+    overviewTableUsers = "table[id='accountTable'] > tbody > tr > td:nth-child(1)"
     
     //functions
     checkOverviewPageTitle(){
         cy.get(this.overviewPageTitle)
             .should('be.visible')
             .and('have.text', '\n\t\t\tAccounts Overview\n\t\t')
-    }
-
-    getTableUsers(){
-        cy.get(this.overviewTableUsers)
-            .each(($elem, index) => {
-
-                const text = $elem.text()
-                if(index < $elem.length-1){
-                    this.tableUsers.push(text)
-                }
-            })
     }
 
     checkTable(){
@@ -46,7 +34,7 @@ export class Overview{
             .each(($elem, index) => {
                 const getText = $elem.text()
                 expect(getText).to.deep.equal(this.tableHeadElements[index])
-            } )
+            })
     }
 
     checkTableBodyData(){

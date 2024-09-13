@@ -1,11 +1,16 @@
 /// <reference types="cypress" />
 
+import { over } from "cypress/types/lodash"
 import { User } from "../interfaces/user"
 import { Index } from "../pageObjects"
+import { Overview } from "../pageObjects/overview"
 import { Register } from "../pageObjects/register"
+import { OpenAccount } from "../pageObjects/openAccount"
 
 const register = new Register()
 const index = new Index()
+const overview = new Overview()
+const openAccount = new OpenAccount()
 
 const user: User = {
   firstName: 'Andrei',
@@ -19,6 +24,8 @@ const user: User = {
   username: 'andrei',
   password: '1234'
 }
+
+const accountIDs: string[] = []
 
 // ***********************************************
 // This example commands.ts shows you how to
@@ -49,7 +56,7 @@ const user: User = {
     register.getConfirmPassword().type(user.password)
     register.getRegisterButton().click()
 
-    console.log(user.username)
+    //console.log(user.username)
 
     return cy.wrap(user)
     
@@ -77,6 +84,58 @@ const user: User = {
     index.getUsername().type(username)
     index.getPassword().type(password)
     index.clickLoginButton()
+
+  })
+
+  Cypress.Commands.add('getAccountsIDs', () => {
+
+    index.clickAccountsOverviewLink()
+    //cy.visit('overview.htm')
+    accountIDs.length = 0
+
+    cy.get(overview.overviewTableUsers)
+      .each(($elem, index) => {
+        const text = $elem.text()
+        if(text !== 'Total'){
+          accountIDs.push(text)
+        }
+      })
+      
+      return cy.wrap(accountIDs)
+  })
+
+  Cypress.Commands.add('selectTypeOfAccount', (typeOfAccount: string) => {
+
+    //need to be on open new account page as a prerequisite
+
+    if( typeOfAccount === 'CHECKING' || typeOfAccount === 'checking')
+      {
+        cy.get(openAccount.selectAccountDropdown).select('CHECKING')
+      }
+      else if(typeOfAccount === 'SAVINGS' || typeOfAccount === 'savings')
+      {
+        cy.get(openAccount.selectAccountDropdown).select('SAVINGS')
+      }
+      
+  })
+
+  Cypress.Commands.add('selectFromAccount', (selectFromAccount: any) => {
+
+    //need to be on open new account page as a prerequisite
+
+    cy.get(openAccount.fromAccountDropdown).select(selectFromAccount)
+      
+  })
+
+  Cypress.Commands.add('openNewAccount', (typeOfAccount: string, selectFromAccount: any) => {
+
+    cy.visit('openaccount.htm')
+    
+    cy.selectTypeOfAccount(typeOfAccount)
+
+    cy.selectFromAccount(selectFromAccount)
+
+    openAccount.clickOpenNewAccountButton()
 
   })
 
@@ -117,6 +176,10 @@ declare global{
             loginUser(username: string, password: string): Chainable<void>
             getText(selector: any): Chainable<void>
             getValue(selector: any): Chainable<void>
+            getAccountsIDs(): Chainable<any>
+            selectTypeOfAccount(typeOfAccount: string): Chainable<void>
+            selectFromAccount(selectFromAccount: any): Chainable<void>
+            openNewAccount(typeOfAccount: string, selectFromAccount: any): Chainable<any>
         }
     }
 }

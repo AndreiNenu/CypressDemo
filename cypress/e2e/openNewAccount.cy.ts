@@ -19,7 +19,7 @@ before('', () => {
     //Preconditions for Open New Accounts Tests
 
     //Go to Parabank site
-    cy.visit('https://parabank.parasoft.com/parabank/index.htm')
+    cy.visit('index.htm')
 
     //Check JDBC radio button and apply settings button
     //Do this in order for Parabank app to be stable and error free
@@ -28,18 +28,19 @@ before('', () => {
     admin.setInitialBalance('5000')
     admin.applyAdminSettings()
 
-    //To be able to run Open New Account tests separate from other tests
-    //create a new random user and return the new user login info
-    index.clickHomePageButton()
-    index.clickRegisterLink()
-    cy.registerRandomUser().then(user => {
-        myUser = user;
-    })
-    
 })
 
 beforeEach('', () => {
     
+    //To be able to run Open New Account tests separate from other tests
+    //create a new random user and return the new user login info
+    cy.visit('index.htm')
+    index.clickHomePageButton()
+    index.clickRegisterLink()
+    cy.registerRandomUser().then(user => {
+        myUser = user;
+        index.clickLogOutLink()
+    })
     cy.intercept('POST', '/parabank/services_proxy/bank/*').as('accOpenResp')
 })
 
@@ -49,8 +50,9 @@ after('', () => {
 describe('Open new accounts tests', () => {
 
 it('Check open new account page title and texts', () => {
-    
-    cy.visit('openaccount.htm')
+    cy.loginUser(myUser.username, myUser.password)
+    //index.clickOpenNewAccountLink()
+    cy.get('a[href="openaccount.htm"]').click()
     
     openAccount.checkOpenNewAccountTitle()
     openAccount.checkOpenNewAccountPageTexts()
@@ -58,9 +60,9 @@ it('Check open new account page title and texts', () => {
 })
 
 it('Create a cheking account and verify that was created', () => {
-
-    cy.visit('openaccount.htm')
-    
+    cy.loginUser(myUser.username, myUser.password)
+    //index.clickOpenNewAccountLink()
+    cy.get('a[href="openaccount.htm"]').click()
     cy.openNewAccount('CHECKING', 0)
 
     cy.wait('@accOpenResp').then(()=>{
@@ -76,9 +78,9 @@ it('Create a cheking account and verify that was created', () => {
 })
 
 it('Create a savings account and verify that was created', () => {
-
-    cy.visit('openaccount.htm')
-    
+    cy.loginUser(myUser.username, myUser.password)
+    //index.clickOpenNewAccountLink()
+    cy.get('a[href="openaccount.htm"]').click()
     cy.openNewAccount('SAVINGS', 0)
 
     cy.wait('@accOpenResp').then(()=>{
@@ -94,10 +96,10 @@ it('Create a savings account and verify that was created', () => {
 })
 
 
-it.only('Create a total of 5 checking accounts accounts and verify it', () => {
-    
-    cy.visit('openaccount.htm')
-
+it('Create a total of 5 checking accounts accounts and verify it', () => {
+    cy.loginUser(myUser.username, myUser.password)
+    //index.clickOpenNewAccountLink()
+    cy.get('a[href="openaccount.htm"]').click()
         for(let i=0; i < 4; i++){
             cy.openNewAccount('CHECKING', 0)
         }

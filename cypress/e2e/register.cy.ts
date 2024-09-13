@@ -76,7 +76,7 @@ it('Check all input register fields that are mandatory', () => {
     index.clickRegisterLink()
     cy.url().should('include', 'register.htm') //verify we are on the register page
     register.getRegisterButton().click()   //triggerMandatoryErrorMessages
-    register.checkRequiredErrorMessages()
+    register.verifyRequiredErrorMessages()
 
 })
 

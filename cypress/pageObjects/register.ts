@@ -29,7 +29,7 @@ export class Register{
     
     //functions
 
-    checkRequiredErrorMessages(){
+    verifyRequiredErrorMessages(){
 
         cy.get(this.firstNameRequiredError)
             .should('be.visible')

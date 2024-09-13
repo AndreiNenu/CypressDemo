@@ -114,6 +114,7 @@ clickTransferFundsLink(){
 
 clickBillPayLink(){
     cy.get(this.billPayLink).click()
+    return this.billPayLink
 }
 
 clickFindTransactionsLink(){

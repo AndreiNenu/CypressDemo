@@ -1,4 +1,5 @@
 export class Index{
+[x: string]: any
 
 //header panel locators(left menu)
 aboutUsLink   = ".leftmenu > :nth-child(2) > a"
@@ -102,35 +103,42 @@ getFullnameWelcomeMessage(){
 
 clickOpenNewAccountLink(){
     cy.get(this.openNewAccountLink).click()
+    return this
 }
 
 clickAccountsOverviewLink(){
     cy.get(this.accountsOverviewLink).click()
+    return this
 }
 
 clickTransferFundsLink(){
     cy.get(this.transferFundsLink).click()
+    return this
 }
 
 clickBillPayLink(){
     cy.get(this.billPayLink).click()
-    return this.billPayLink
+    return this
 }
 
 clickFindTransactionsLink(){
     cy.get(this.findTransactionsLink).click()
+    return this
 }
 
 clickUpdateContactInfoLink(){
     cy.get(this.updateContactInfoLink).click()
+    return this
 }
 
 clickRequestLoanLink(){
     cy.get(this.requestLoanLink).click()
+    return this
 }
 
 clickLogOutLink(){
     cy.get(this.logoutLink).click()
+    return this
 }
 
 //functions login successfull messages

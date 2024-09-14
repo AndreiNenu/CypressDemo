@@ -12,7 +12,6 @@ const payBill = new PayBill()
 let myUser: User
 let account1: Account
 
-
 before('', () => {
 
     //Preconditions for Open New Accounts Tests
@@ -117,7 +116,7 @@ it('send bill payment and validate it', () => {
                             cy.wait('@billpayed')
                             .then(() => {
                                 payBill.billCompleteValidation(account1.id)
-
+                                
                             })
                         })
                     })

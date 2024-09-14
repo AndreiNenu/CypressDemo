@@ -46,6 +46,7 @@ myBill: Bill = {
     account: '90475',
     amount: '1000'
 }
+
 //functions
 
 billCompleteValidation(accountID:string){

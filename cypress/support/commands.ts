@@ -6,11 +6,13 @@ import { Index } from "../pageObjects"
 import { Overview } from "../pageObjects/overview"
 import { Register } from "../pageObjects/register"
 import { OpenAccount } from "../pageObjects/openAccount"
+import { RequestLoan } from "../pageObjects/requestLoan"
 
 const register = new Register()
 const index = new Index()
 const overview = new Overview()
 const openAccount = new OpenAccount()
+const requestLoan = new RequestLoan()
 
 const user: User = {
   firstName: 'Andrei',
@@ -149,6 +151,15 @@ const accountIDs: string[] = []
       .then($el => $el.val())
   })
 
+  Cypress.Commands.add('requestLoan', (amount: string, payment: string) => {
+      cy.get(requestLoan.loanAmount).type(amount)
+      cy.get(requestLoan.downPayment).type(payment)
+      cy.get(requestLoan.fromAccountDropdown).select(0)
+      cy.get(requestLoan.applyForLoanButton).click()
+  })
+
+  
+
   function getRandomNumber(min: number, max: number){
     return  Math.round( Math.random() * (max - min) + min )
   }
@@ -180,6 +191,8 @@ declare global{
             selectTypeOfAccount(typeOfAccount: string): Chainable<void>
             selectFromAccount(selectFromAccount: any): Chainable<void>
             openNewAccount(typeOfAccount: string, selectFromAccount: any): Chainable<any>
+            requestLoan(amount: string, payment: string): Chainable<any>
+            
         }
     }
 }

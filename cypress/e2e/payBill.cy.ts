@@ -102,8 +102,8 @@ it('send bill payment and validate it', () => {
             .then(($row)=>{
                 account1 = {
                     id: $row.find('td').eq(0).text(),
-                    accountType: $row.find('td').eq(1).text(),
-                    balance: $row.find('td').eq(2).text().replace('$', '')
+                    balance: $row.find('td').eq(1).text(),
+                    amount: $row.find('td').eq(2).text().replace('$', '')
                     }
                 })
                 .then(() => {
@@ -116,7 +116,7 @@ it('send bill payment and validate it', () => {
                             cy.wait('@billpayed')
                             .then(() => {
                                 payBill.billCompleteValidation(account1.id)
-                                
+                             
                             })
                         })
                     })

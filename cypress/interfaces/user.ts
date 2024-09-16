@@ -24,3 +24,8 @@ export interface User2{
     phoneNumber: string
 
 }
+
+export interface Funds{
+    returnAdd: string,
+    returnDiff: string
+}

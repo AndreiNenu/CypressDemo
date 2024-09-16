@@ -41,7 +41,8 @@ beforeEach('', () => {
         myUser = user;
         index.clickLogOutLink()
     })
-    cy.intercept('POST', '/parabank/services_proxy/bank/*').as('accOpenResp')
+    cy.intercept('GET', '**/parabank/openaccount.htm').as('openAccPage')
+    cy.intercept('POST', '**/parabank/services_proxy/bank/*').as('accOpenResp')
 })
 
 after('', () => {

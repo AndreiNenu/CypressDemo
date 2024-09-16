@@ -65,8 +65,8 @@ it('update contact info and validate it', () => {
             .then(($row)=>{
                 account1 = {
                     id: $row.find('td').eq(0).text(),
-                    balance: $row.find('td').eq(1).text(),
-                    amount: $row.find('td').eq(2).text().replace('$', '')
+                    balance: parseFloat($row.find('td').eq(1).text()),
+                    amount: parseFloat($row.find('td').eq(2).text().replace('$', ''))
                     }
                     console.log(account1)
                     cy.wrap(index.clickRequestLoanLink())

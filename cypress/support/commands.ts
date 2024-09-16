@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 import { over } from "cypress/types/lodash"
-import { User } from "../interfaces/user"
+import { Funds, User } from "../interfaces/user"
 import { Index } from "../pageObjects"
 import { Overview } from "../pageObjects/overview"
 import { Register } from "../pageObjects/register"
@@ -26,6 +26,8 @@ const user: User = {
   username: 'andrei',
   password: '1234'
 }
+
+const funds ={}
 
 const accountIDs: string[] = []
 
@@ -158,7 +160,19 @@ const accountIDs: string[] = []
       cy.get(requestLoan.applyForLoanButton).click()
   })
 
-  
+  Cypress.Commands.add('addAmmount', (initialAmount: number, addAmmount: number) => {
+    const result = initialAmount + addAmmount
+    funds.returnAdd = result.toString()
+    cy.wrap(funds)
+   })
+
+   Cypress.Commands.add('subtractAmount', (initialAmount: number, substractAmmount: number) => {
+    const result = initialAmount - substractAmmount
+    
+    funds.returnDiff = result.toString()
+    cy.wrap(funds)
+
+  })
 
   function getRandomNumber(min: number, max: number){
     return  Math.round( Math.random() * (max - min) + min )
@@ -192,7 +206,8 @@ declare global{
             selectFromAccount(selectFromAccount: any): Chainable<void>
             openNewAccount(typeOfAccount: string, selectFromAccount: any): Chainable<any>
             requestLoan(amount: string, payment: string): Chainable<any>
-            
+            addAmmount(initialAmount: number, addAmmount: number): Chainable<void>
+            subtractAmount(initialAmount: number, substractAmmount: number): Chainable<void>
         }
     }
 }

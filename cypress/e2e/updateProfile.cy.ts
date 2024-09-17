@@ -1,22 +1,17 @@
 import { User } from "../interfaces/user";
 import { Index } from "../pageObjects";
 import { Admin } from "../pageObjects/admin";
-import { PayBill } from "../pageObjects/payBill";
-import { Account } from "../interfaces/accounts";
 import { UpdateProfile } from "../pageObjects/updateProfile";
-import { values } from "cypress/types/lodash";
-
 
 const index = new Index()
 const admin = new Admin()
-const payBill = new PayBill()
 const updateProfile = new UpdateProfile()
 let myUser: User
 let initProfile: any[] = []
 
 before('', () => {
 
-    //Preconditions for Open New Accounts Tests
+    //Preconditions for Update Profile Tests
 
     //Go to Parabank site
     cy.visit('index.htm')
@@ -31,8 +26,8 @@ before('', () => {
 })
 
 beforeEach('', () => {
-    
-    //To be able to run Open New Account tests separate from other tests
+
+    //To be able to run Update Profile tests separate from other tests
     //create a new random user and return the new user login info
     cy.visit('index.htm')
     index.clickRegisterLink()
@@ -50,41 +45,41 @@ after('', () => {
 
 describe('Open new accounts tests', () => {
 
-it('update contact info and validate it', () => {
-    
-    cy.loginUser(myUser.username, myUser.password)
+    it('update contact info and validate it', () => {
 
-    cy.wait('@overview')
-    .then(() => {
-        cy.wrap(index.clickUpdateContactInfoLink())
-        .then(() => {
-            cy.wait('@updatePage')
-                .then(() => {
-                    cy.get('tbody')
-                    .find('tr')
-                    .each(($row, index) => {
-                        initProfile[index] = cy.wrap($row.find('td').eq(0)).its('pro')
-                    })
+        cy.loginUser(myUser.username, myUser.password)
+
+        cy.wait('@overview')
+            .then(() => {
+                cy.wrap(index.clickUpdateContactInfoLink())
                     .then(() => {
-                        console.log('Values of previous profile: ' + initProfile)
-                        updateProfile.updateContactInfo()
-                        cy.wait('@updateProfile')
-                        .then(() => {
-                            updateProfile.validateUpdateOfContactInfo()
-                            index.clickUpdateContactInfoLink()
-                            cy.wrap(initProfile)
+                        cy.wait('@updatePage')
+                            .then(() => {
                                 cy.get('tbody')
-                                .find('tr')
-                                .each(($row, index) => {
-                                    expect($row.find('td').eq(0).text()).to.be.equal(initProfile[index])
+                                    .find('tr')
+                                    .each(($row, index) => {
+                                        initProfile[index] = cy.wrap($row.find('td').eq(0)).its('pro')
+                                    })
+                                    .then(() => {
+                                        console.log('Values of previous profile: ' + initProfile)
+                                        updateProfile.updateContactInfo()
+                                        cy.wait('@updateProfile')
+                                            .then(() => {
+                                                updateProfile.validateUpdateOfContactInfo()
+                                                index.clickUpdateContactInfoLink()
+                                                cy.wrap(initProfile)
+                                                cy.get('tbody')
+                                                    .find('tr')
+                                                    .each(($row, index) => {
+                                                        expect($row.find('td').eq(0).text()).to.be.equal(initProfile[index])
+                                                    })
+                                            })
+                                    })
                             })
-                        })
                     })
-                })
-        })
+
+            })
 
     })
-
-})
 
 })

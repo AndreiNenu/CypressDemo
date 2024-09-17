@@ -1,8 +1,8 @@
-export interface User{
+export interface User {
 
     firstName: string,
     lastName: string,
-    address: string, 
+    address: string,
     city: string,
     state: string,
     zipCode: string,
@@ -13,11 +13,11 @@ export interface User{
 
 }
 
-export interface User2{
+export interface User2 {
 
     firstName: string,
     lastName: string,
-    address: string, 
+    address: string,
     city: string,
     state: string,
     zipCode: string,

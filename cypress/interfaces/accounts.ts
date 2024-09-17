@@ -1,7 +1,7 @@
-export interface Account{
+export interface Account {
 
     id: string,
-    balance?: string,
-    amount?: string
-    
+    balance: number,
+    amount: number
+
 }

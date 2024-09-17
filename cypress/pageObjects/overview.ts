@@ -1,11 +1,9 @@
-import { Dictionary, NumericDictionary } from "cypress/types/lodash";
-
-export class Overview{
+export class Overview {
 
     //declarations
     tableHeadElements = ['Account', 'Balance*', 'Available Amount']
     tableBodyElements: any[] = [
-        ''     , '$5000.00', '$5000.00',
+        '', '$5000.00', '$5000.00',
         'Total', '$5000.00', '\xa0'       //// Non-breakable space is char 0xa0 (160 dec)
     ]
     tableFootElements = ['*Balance includes deposits that may be subject to holds']
@@ -16,20 +14,20 @@ export class Overview{
     overviewTableBody = "table[id='accountTable'] > tbody > tr > td"
     overviewTableFoot = "table[id='accountTable'] > tfoot > tr > td"
     overviewTableUsers = "table[id='accountTable'] > tbody > tr > td:nth-child(1)"
-    
+
     //functions
-    checkOverviewPageTitle(){
+    checkOverviewPageTitle() {
         cy.get(this.overviewPageTitle)
             .should('be.visible')
             .and('have.text', '\n\t\t\tAccounts Overview\n\t\t')
     }
 
-    checkTable(){
+    checkTable() {
         cy.get("#accountTable")
             .should('be.visible')
     }
 
-    checkTableHeadData(){
+    checkTableHeadData() {
         cy.get(this.overviewTableHead)
             .each(($elem, index) => {
                 const getText = $elem.text()
@@ -37,18 +35,18 @@ export class Overview{
             })
     }
 
-    checkTableBodyData(){
+    checkTableBodyData() {
         cy.get(this.overviewTableBody)
             .each(($elem, index) => {
                 const getText = $elem.text()
-                if(index % 3 === 0){
+                if (index % 3 === 0) {
                     this.tableBodyElements[index] = getText
                 }
                 expect(getText).to.deep.equal(this.tableBodyElements[index])
-            } )
+            })
     }
 
-    checkTableFootData(){
+    checkTableFootData() {
         cy.get(this.overviewTableFoot)
             .should('be.visible')
             .and('have.text', this.tableFootElements[0])
@@ -62,7 +60,7 @@ export class Overview{
     //            const texts = Cypress._.map($elem, 'innerText')
     //            expect(texts, 'tableHeadElements').to.deep.equal(this.tableHeadElements)
     //         })
-        
+
     // }
 
     // checkTableHeadData(){
@@ -74,5 +72,5 @@ export class Overview{
     //         } )
     // }
 
-}   
+}
 

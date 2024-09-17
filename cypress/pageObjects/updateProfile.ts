@@ -34,7 +34,7 @@ export class UpdateProfile {
     }
 
     //functions
-
+   
     updateContactInfo() {
         cy.get(this.firstName).clear().type(this.myProfile.firstName)
         cy.get(this.lastName).clear().type(this.myProfile.lastName)
@@ -47,7 +47,7 @@ export class UpdateProfile {
         cy.get(this.updateProfileButton).click()
     }
 
-    validateUpdateOfContactInfo() {
+    validateUpdateOfContactInfoResponse() {
         cy.get(this.profileUpdatedTitle)
             .should('be.visible')
             .and('have.text', 'Profile Updated')
@@ -57,6 +57,16 @@ export class UpdateProfile {
             .and('have.text', 'Your updated address and phone number have been added to the system. ')
 
         return this
+    }
+
+    validateUpdateOfContactInfo(){
+        cy.get(this.firstName).invoke('val').should('deep.equal', this.myProfile.firstName)
+        cy.get(this.lastName).invoke('val').should('deep.equal', this.myProfile.lastName)
+        cy.get(this.address).invoke('val').should('deep.equal', this.myProfile.address)
+        cy.get(this.city).invoke('val').should('deep.equal', this.myProfile.city)
+        cy.get(this.state).invoke('val').should('deep.equal', this.myProfile.state)
+        cy.get(this.zipCode).invoke('val').should('deep.equal', this.myProfile.zipCode)
+        cy.get(this.phoneNumber).invoke('val').should('deep.equal', this.myProfile.phoneNumber)
     }
 
 }

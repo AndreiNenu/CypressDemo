@@ -1,3 +1,4 @@
+import { update } from "cypress/types/lodash";
 import { User } from "../interfaces/user";
 import { Index } from "../pageObjects";
 import { Admin } from "../pageObjects/admin";
@@ -54,32 +55,22 @@ describe('Open new accounts tests', () => {
                 cy.wrap(index.clickUpdateContactInfoLink())
                     .then(() => {
                         cy.wait('@updatePage')
+                        cy.wait(1000)
                             .then(() => {
-                                cy.get('tbody')
-                                    .find('tr')
-                                    .each(($row, index) => {
-                                        initProfile[index] = cy.wrap($row.find('td').eq(0)).its('pro')
-                                    })
+                                updateProfile.updateContactInfo()
+                                cy.wait('@updateProfile')
                                     .then(() => {
-                                        console.log('Values of previous profile: ' + initProfile)
-                                        updateProfile.updateContactInfo()
-                                        cy.wait('@updateProfile')
-                                            .then(() => {
-                                                updateProfile.validateUpdateOfContactInfo()
-                                                index.clickUpdateContactInfoLink()
-                                                cy.wrap(initProfile)
-                                                cy.get('tbody')
-                                                    .find('tr')
-                                                    .each(($row, index) => {
-                                                        expect($row.find('td').eq(0).text()).to.be.equal(initProfile[index])
-                                                    })
-                                            })
+                                        updateProfile.validateUpdateOfContactInfoResponse()
+                                        index.clickUpdateContactInfoLink()
+                                        cy.wait('@updatePage').then(() => {
+                                            updateProfile.validateUpdateOfContactInfo()
+                                        })
                                     })
                             })
                     })
-
             })
 
     })
 
 })
+

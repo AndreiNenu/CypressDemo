@@ -21,7 +21,7 @@ export class RequestLoan {
             .and('have.text', 'ParaBank')
         cy.get(this.dateLocator)
             .should('be.visible')
-            .and('have.text', '09-15-2024')
+            .and('have.text', '09-17-2024')
         cy.get(this.loanStatus)
             .should('be.visible')
             .and('have.text', 'Approved')

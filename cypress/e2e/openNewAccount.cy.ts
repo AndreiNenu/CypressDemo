@@ -1,4 +1,3 @@
-import { last, over } from "cypress/types/lodash";
 import { User } from "../interfaces/user";
 import { Index } from "../pageObjects";
 import { Activity } from "../pageObjects/activity";
@@ -9,10 +8,8 @@ import { Overview } from "../pageObjects/overview";
 const openAccount = new OpenAccount()
 const index = new Index()
 const admin = new Admin()
-const overview = new Overview()
 const activity = new Activity()
 let myUser: User
-let myAccountIDs: string[] = [] 
 
 before('', () => {
 
@@ -31,7 +28,7 @@ before('', () => {
 })
 
 beforeEach('', () => {
-    
+
     //To be able to run Open New Account tests separate from other tests
     //create a new random user and return the new user login info
     cy.visit('index.htm')
@@ -50,66 +47,66 @@ after('', () => {
 
 describe('Open new accounts tests', () => {
 
-it('Check open new account page title and texts', () => {
-    cy.loginUser(myUser.username, myUser.password)
-    //index.clickOpenNewAccountLink()
-    cy.get('a[href="openaccount.htm"]').click()
-    
-    openAccount.checkOpenNewAccountTitle()
-    openAccount.checkOpenNewAccountPageTexts()
+    it('Check open new account page title and texts', () => {
+        cy.loginUser(myUser.username, myUser.password)
+        //index.clickOpenNewAccountLink()
+        cy.get('a[href="openaccount.htm"]').click()
 
-})
+        openAccount.checkOpenNewAccountTitle()
+        openAccount.checkOpenNewAccountPageTexts()
 
-it('Create a cheking account and verify that was created', () => {
-    cy.loginUser(myUser.username, myUser.password)
-    //index.clickOpenNewAccountLink()
-    cy.get('a[href="openaccount.htm"]').click()
-    cy.openNewAccount('CHECKING', 0)
-
-    cy.wait('@accOpenResp').then(()=>{
-        cy.get('#newAccountId')
-        .should('be.visible')
-        .click()
-
-    activity.getAccountType()
-        .should('be.visible')
-        .should('have.text', 'CHECKING')
     })
 
-})
+    it('Create a cheking account and verify that was created', () => {
+        cy.loginUser(myUser.username, myUser.password)
+        //index.clickOpenNewAccountLink()
+        cy.get('a[href="openaccount.htm"]').click()
+        cy.openNewAccount('CHECKING', 0)
 
-it('Create a savings account and verify that was created', () => {
-    cy.loginUser(myUser.username, myUser.password)
-    //index.clickOpenNewAccountLink()
-    cy.get('a[href="openaccount.htm"]').click()
-    cy.openNewAccount('SAVINGS', 0)
+        cy.wait('@accOpenResp').then(() => {
+            cy.get('#newAccountId')
+                .should('be.visible')
+                .click()
 
-    cy.wait('@accOpenResp').then(()=>{
-        cy.get('#newAccountId')
-        .should('be.visible')
-        .click()
+            activity.getAccountType()
+                .should('be.visible')
+                .should('have.text', 'CHECKING')
+        })
 
-    activity.getAccountType()
-        .should('be.visible')
-        .should('have.text', 'SAVINGS')
     })
 
-})
+    it('Create a savings account and verify that was created', () => {
+        cy.loginUser(myUser.username, myUser.password)
+        //index.clickOpenNewAccountLink()
+        cy.get('a[href="openaccount.htm"]').click()
+        cy.openNewAccount('SAVINGS', 0)
+
+        cy.wait('@accOpenResp').then(() => {
+            cy.get('#newAccountId')
+                .should('be.visible')
+                .click()
+
+            activity.getAccountType()
+                .should('be.visible')
+                .should('have.text', 'SAVINGS')
+        })
+
+    })
 
 
-it('Create a total of 5 checking accounts accounts and verify it', () => {
-    cy.loginUser(myUser.username, myUser.password)
-    //index.clickOpenNewAccountLink()
-    cy.get('a[href="openaccount.htm"]').click()
-        for(let i=0; i < 4; i++){
+    it('Create a total of 5 checking accounts accounts and verify it', () => {
+        cy.loginUser(myUser.username, myUser.password)
+        //index.clickOpenNewAccountLink()
+        cy.get('a[href="openaccount.htm"]').click()
+        for (let i = 0; i < 4; i++) {
             cy.openNewAccount('CHECKING', 0)
         }
-       
+
         cy.getAccountsIDs()
-        .then($elem => {
-            cy.wrap($elem)
-                .should('have.length', 5)
-        })
-})
+            .then($elem => {
+                cy.wrap($elem)
+                    .should('have.length', 5)
+            })
+    })
 
 })

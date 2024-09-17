@@ -1,10 +1,10 @@
-export class Register{
+export class Register {
 
     //locators fields
     firstName = "#customer\\.firstName"
     lastName = "#customer\\.lastName"
     address = "#customer\\.address\\.street"
-    city= "#customer\\.address\\.city"
+    city = "#customer\\.address\\.city"
     state = "#customer\\.address\\.state"
     zipCode = "#customer\\.address\\.zipCode"
     phoneNumber = "#customer\\.phoneNumber"
@@ -19,17 +19,17 @@ export class Register{
     firstNameRequiredError = "#customer\\.firstName\\.errors"
     lastNameRequiredError = "#customer\\.lastName\\.errors"
     addressRequiredError = "#customer\\.address\\.street\\.errors"
-    cityRequiredError= "#customer\\.address\\.city\\.errors"
+    cityRequiredError = "#customer\\.address\\.city\\.errors"
     stateRequiredError = "#customer\\.address\\.state\\.errors"
     zipCodeRequiredError = "#customer\\.address\\.zipCode\\.errors"
     socialSecurityNumberRequiredError = "#customer\\.ssn\\.errors"
     usernameRequiredError = "#customer\\.username\\.errors"
     passwordRequiredError = "#customer\\.password\\.errors"
     confirmPasswordRequiredError = "#repeatedPassword\\.errors"
-    
+
     //functions
 
-    verifyRequiredErrorMessages(){
+    verifyRequiredErrorMessages() {
 
         cy.get(this.firstNameRequiredError)
             .should('be.visible')
@@ -71,54 +71,54 @@ export class Register{
             .should('be.visible')
             .should('have.text', 'Password confirmation is required.')
             .and('have.css', 'color', 'rgb(255, 0, 0)')
-        
+
     }
 
-    getFirstName(){
-        return cy.get(this.firstName)   
+    getFirstName() {
+        return cy.get(this.firstName)
     }
 
-    getLastName(){
+    getLastName() {
         return cy.get(this.lastName)
     }
 
-    getAddress(){
+    getAddress() {
         return cy.get(this.address)
     }
 
-    getCity(){
+    getCity() {
         return cy.get(this.city)
     }
 
-    getState(){
+    getState() {
         return cy.get(this.state)
     }
 
-    getZipCode(){
+    getZipCode() {
         return cy.get(this.zipCode)
     }
 
-    getPhoneNumber(){
+    getPhoneNumber() {
         return cy.get(this.phoneNumber)
     }
 
-    getSocialSecurityNumber(){
+    getSocialSecurityNumber() {
         return cy.get(this.socialSecurityNumber)
     }
 
-    getUsername(){
+    getUsername() {
         return cy.get(this.username)
     }
 
-    getPassword(){
+    getPassword() {
         return cy.get(this.password)
     }
 
-    getConfirmPassword(){
+    getConfirmPassword() {
         return cy.get(this.confirmPassword)
     }
 
-    getRegisterButton(){
+    getRegisterButton() {
         return cy.get(this.registerButton)
     }
 

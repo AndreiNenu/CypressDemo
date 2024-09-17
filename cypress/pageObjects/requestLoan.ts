@@ -1,4 +1,4 @@
-export class RequestLoan{
+export class RequestLoan {
 
     //locator fields
     loanAmount = "#amount"
@@ -15,7 +15,7 @@ export class RequestLoan{
 
     //functions
 
-    validateReqeustLoan(){
+    validateReqeustLoan() {
         cy.get(this.loanProvider)
             .should('be.visible')
             .and('have.text', 'ParaBank')
@@ -30,7 +30,7 @@ export class RequestLoan{
             .and('have.text', 'Congratulations, your loan has been approved.')
     }
 
-    clickNewAccount(){
+    clickNewAccount() {
         cy.get(this.newAccount).click()
     }
 

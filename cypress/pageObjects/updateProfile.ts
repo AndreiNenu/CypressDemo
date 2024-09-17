@@ -1,6 +1,6 @@
 import { User, User2 } from "../interfaces/user"
 
-export class UpdateProfile{
+export class UpdateProfile {
 
     //locator fields
     firstName = 'input[id="customer\\.firstName"]'
@@ -14,7 +14,7 @@ export class UpdateProfile{
     profileUpdatedTitle = "#updateProfileResult > .title"
     profileUpdatedMessage = "#updateProfileResult > p"
 
-    
+
     //error fields
     firstNameError = '#firstName-error'
     lastNameError = '#lastName-error'
@@ -23,10 +23,10 @@ export class UpdateProfile{
     stateError = '#state-error'
     zipCodeError = '#zipCode-error'
 
-    myProfile: User2 ={
+    myProfile: User2 = {
         firstName: 'John',
         lastName: 'Lenon',
-        address: 'Liberty Street', 
+        address: 'Liberty Street',
         city: 'Texas',
         state: 'Texas',
         zipCode: '505291',
@@ -35,7 +35,7 @@ export class UpdateProfile{
 
     //functions
 
-    updateContactInfo(){
+    updateContactInfo() {
         cy.get(this.firstName).clear().type(this.myProfile.firstName)
         cy.get(this.lastName).clear().type(this.myProfile.lastName)
         cy.get(this.address).clear().type(this.myProfile.address)
@@ -47,7 +47,7 @@ export class UpdateProfile{
         cy.get(this.updateProfileButton).click()
     }
 
-    validateUpdateOfContactInfo(){
+    validateUpdateOfContactInfo() {
         cy.get(this.profileUpdatedTitle)
             .should('be.visible')
             .and('have.text', 'Profile Updated')

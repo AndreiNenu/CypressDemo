@@ -1,4 +1,3 @@
-import { over } from "cypress/types/lodash";
 import { User } from "../interfaces/user";
 import { Index } from "../pageObjects";
 import { Admin } from "../pageObjects/admin";

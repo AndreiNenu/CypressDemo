@@ -1,12 +1,12 @@
-export interface Bill{
+export interface Bill {
 
     payeeName: string,
     address: string,
-    city: string, 
+    city: string,
     state: string,
     zipCode: string,
     phoneNumber: string,
     account: string,
     amount: string
-    
+
 }

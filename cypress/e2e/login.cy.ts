@@ -33,11 +33,11 @@ beforeEach('', () => {
     cy.visit('index.htm')
 })
 
-after('', () => {})
+after('', () => { })
 
 describe('Login Tests', () => {
 
-it('Check login functionality with valid credentials', () => {
+    it('Check login functionality with valid credentials', () => {
 
         cy.loginUser(myUser.username, myUser.password)
 
@@ -49,20 +49,20 @@ it('Check login functionality with valid credentials', () => {
             .should('be.visible')
             .and('have.text', 'Welcome ' + myUser.firstName + ' ' + myUser.lastName)
 
-})
+    })
 
-it('Check login functionality with invalid credentials', () => {
+    it('Check login functionality with invalid credentials', () => {
 
-    cy.loginUser('invalidUser', 'invalidPassword')
+        cy.loginUser('invalidUser', 'invalidPassword')
 
-    index.getLoginErrorTitle()
-        .should('be.visible')
-        .and('have.text', 'Error!')
+        index.getLoginErrorTitle()
+            .should('be.visible')
+            .and('have.text', 'Error!')
 
-    index.getLoginErrorMessage()
-        .should('be.visible')
-        .should('have.text', 'The username and password could not be verified.')
-        .and('have.css', 'color', 'rgb(255, 0, 0)')
-})
+        index.getLoginErrorMessage()
+            .should('be.visible')
+            .should('have.text', 'The username and password could not be verified.')
+            .and('have.css', 'color', 'rgb(255, 0, 0)')
+    })
 
 })

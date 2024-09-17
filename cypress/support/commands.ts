@@ -148,9 +148,9 @@ Cypress.Commands.add('getValue', (selector) => {
     .then($el => $el.val())
 })
 
-Cypress.Commands.add('requestLoan', (amount: string, payment: string) => {
-  cy.get(requestLoan.loanAmount).type(amount)
-  cy.get(requestLoan.downPayment).type(payment)
+Cypress.Commands.add('requestLoan', (amount: number, payment: number) => {
+  cy.get(requestLoan.loanAmount).type(amount.toString())
+  cy.get(requestLoan.downPayment).type(payment.toString())
   cy.get(requestLoan.fromAccountDropdown).select(0)
   cy.get(requestLoan.applyForLoanButton).click()
 })
@@ -200,7 +200,7 @@ declare global {
       selectTypeOfAccount(typeOfAccount: string): Chainable<void>
       selectFromAccount(selectFromAccount: any): Chainable<void>
       openNewAccount(typeOfAccount: string, selectFromAccount: any): Chainable<any>
-      requestLoan(amount: string, payment: string): Chainable<any>
+      requestLoan(amount: number, payment: number): Chainable<any>
       addAmmount(initialAmount: number, addAmmount: number): Chainable<string>
       subtractAmount(initialAmount: number, substractAmmount: number): Chainable<string>
     }

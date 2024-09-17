@@ -11,6 +11,7 @@ const reqLoan = new RequestLoan()
 let myUser: User
 let account1: Account
 let loan: any
+let initialBalance: number = 5000
 
 before('', () => {
 
@@ -23,7 +24,8 @@ before('', () => {
     //Do this in order for Parabank app to be stable and error free
     index.clickAdminPageLink()
     admin.checkAccessModeJDBC()
-    admin.setInitialBalance('5000')
+    admin.setInitialBalance(initialBalance.toString())
+    admin.chooseLoanProvider('local')
     admin.applyAdminSettings()
 
 })
@@ -60,7 +62,7 @@ describe('Open new accounts tests', () => {
                     .then(($row) => {
                         account1 = {
                             id: $row.find('td').eq(0).text(),
-                            balance: parseFloat($row.find('td').eq(1).text()),
+                            balance: parseFloat($row.find('td').eq(1).text().replace('$', '')),
                             amount: parseFloat($row.find('td').eq(2).text().replace('$', ''))
                         }
                         console.log(account1)
@@ -68,22 +70,28 @@ describe('Open new accounts tests', () => {
                     }).then(() => {
                         cy.wait('@reqLoan')
                         loan = {
-                            loanAmount: '1000',
-                            downPayment: '150'
+                            loanAmount: 1000,
+                            downPayment: 150
                         }
                         cy.requestLoan(loan.loanAmount, loan.downPayment)
                     }).then(() => {
-                        reqLoan.validateReqeustLoan()
+                        reqLoan.validateRequestLoan()
                         console.log(account1)
                         cy.wait('@loanTaken')
                         cy.wrap(index.clickAccountsOverviewLink())
                         cy.wait('@overview')
+                        cy.subtractAmount(initialBalance, loan.downPayment)
                         cy.get('tbody')
                             .find('tr')
-                            .eq(1)
-                            .find('td')
-                            .eq(1)
-                            .should('have.text', '$' + loan.loanAmount + '.00')
+                            .find('td:nth-child(2)')
+                            .each(($balance, index) => {
+                                if (index === 0) {
+                                    cy.wrap($balance).should('have.text', '$' + (initialBalance - loan.downPayment) + '.00')
+                                } else if (index === 1) {
+                                    cy.wrap($balance).should('have.text', '$' + loan.loanAmount + '.00')
+                                }
+                            })
+
 
                     })
 

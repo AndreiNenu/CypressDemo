@@ -4,6 +4,7 @@ export class Admin {
     dataAccessModeJDBC = "#accessMode4" // JDBC radio button
     initialBalance = "#initialBalance"
     submitAdminSettingsButton = "input[value='Submit']"
+    loanProvider = "#loanProvider"
 
     //functions
     checkAccessModeJDBC() {
@@ -22,6 +23,10 @@ export class Admin {
 
     applyAdminSettings() {
         cy.get(this.submitAdminSettingsButton).click()
+    }
+
+    chooseLoanProvider(value: string){             // the values are: jms, ws or local
+        cy.get(this.loanProvider).select(value)
     }
 
 }

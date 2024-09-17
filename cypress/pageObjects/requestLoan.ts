@@ -13,15 +13,21 @@ export class RequestLoan {
     loanSuccessMessage = "#loanRequestApproved > :nth-child(1)"
     newAccount = "#newAccountId"
 
+    //other
+    dayOfWeek = new Date().getDate()
+    currentYear = new Date().getFullYear()
+    currentMonth = new Date().getMonth() + 1
+    
+    
     //functions
 
-    validateReqeustLoan() {
+    validateRequestLoan() {
         cy.get(this.loanProvider)
             .should('be.visible')
             .and('have.text', 'ParaBank')
         cy.get(this.dateLocator)
             .should('be.visible')
-            .and('have.text', '09-17-2024')
+            .and('have.text', '0'+this.currentMonth+'-'+this.dayOfWeek+'-'+this.currentYear)
         cy.get(this.loanStatus)
             .should('be.visible')
             .and('have.text', 'Approved')

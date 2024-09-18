@@ -57,8 +57,6 @@ Cypress.Commands.add('registerRandomUser', () => {
   register.getConfirmPassword().type(user.password)
   register.getRegisterButton().click()
 
-  //console.log(user.username)
-
   return cy.wrap(user)
 
 })
@@ -91,7 +89,7 @@ Cypress.Commands.add('loginUser', (username: string, password: string) => {
 Cypress.Commands.add('getAccountsIDs', () => {
 
   index.clickAccountsOverviewLink()
-  //cy.visit('overview.htm')
+
   accountIDs.length = 0
 
   cy.get(overview.overviewTableUsers)
@@ -164,7 +162,6 @@ Cypress.Commands.add('addAmmount', (initialAmount: number, addAmmount: number) =
 Cypress.Commands.add('subtractAmount', (initialAmount: number, substractAmmount: number) => {
   const result = initialAmount - substractAmmount
 
-  //funds.returnDiff = result.toString()
   return cy.wrap(result.toString())
 
 })

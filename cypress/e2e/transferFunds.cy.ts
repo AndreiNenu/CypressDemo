@@ -87,7 +87,7 @@ describe('Transfer Funds tests', () => {
                                                 index.clickTransferFundsLink()
                                                 cy.wait('@transfer')
                                                     .then(() => {
-                                                        transferSum = '2350'
+                                                        transferSum = '1200'
                                                         transfer.transferFunds(transferSum, account1.id, account2.id)
                                                         cy.wait('@transComplete')
                                                         transfer.validateTransferTexts(transferSum, account1.id, account2.id)

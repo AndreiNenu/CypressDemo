@@ -70,8 +70,8 @@ describe('Open new accounts tests', () => {
                     }).then(() => {
                         cy.wait('@reqLoan')
                         loan = {
-                            loanAmount: 1000,
-                            downPayment: 150
+                            loanAmount: 1200,
+                            downPayment: 300
                         }
                         cy.requestLoan(loan.loanAmount, loan.downPayment)
                     }).then(() => {
